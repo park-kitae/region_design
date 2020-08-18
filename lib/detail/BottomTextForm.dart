@@ -5,9 +5,7 @@ class BottomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey
-          ),
+          border: Border
           color: Colors.white30
         ),
         child: TextFormField(

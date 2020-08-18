@@ -28,13 +28,6 @@ class MainListPage extends StatelessWidget{
               commentCount: 50,
               actionCount: 205
           ),
-          CongressmanItem(
-            name: '강훈식(姜勳植)',
-            image: 'assets/congressman.jpg',
-            cmitName: '더불어민주당',
-            location: '충남 아산시을',
-            polyName: '교육위원회',
-          ),
           ArgumentItem(
             title: '하준이법 시행 첫날 어떻게 생각 하시나요?',
             text: '버스나 지하철 등 대중교통 이용 상황에서 내 휴대전화 화면을 몰래 흘깃 훔쳐보는 이른바 스마트폰 \'흘깃 족\'에 대한 비판 목소리가 이어지고 있다 이들은 타인이 휴대폰으로 시청',
