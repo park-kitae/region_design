@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:region_design/list/MainListPage.dart';
 import 'package:region_design/list/LocationListPage.dart';
 import 'package:region_design/list/SearchListPage.dart';
+import 'package:region_design/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,13 +44,30 @@ class _MyHomePageState extends State<MyHomePage>
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
+        title: Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'RegionNews',
+            style: TextStyle(
+              fontSize: 25,
+              color: Colors.black54,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.person, color: Color(0xFF545D68)),
+            icon: Icon(
+              Icons.person,
+              color: Colors.black54,
+            ),
             onPressed: () {
-              //TODO: notifications icon press...
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => LoginScreen(
+                  ))
+              );
             },
-          )
+          ),
         ],
       ),
       body: Container(
@@ -62,10 +80,10 @@ class _MyHomePageState extends State<MyHomePage>
             SafeArea(
               child: TabBar(
                 controller: _tabController,
-                indicatorColor: Colors.transparent,
-                labelColor: Color(0xFFC88D67),
+                indicatorColor: Colors.blue,
+                labelColor: Colors.black54,
                 isScrollable: true,
-                unselectedLabelColor: Color(0xFFCDCDCD),
+                unselectedLabelColor: Colors.black12,
                 tabs: [
                   Tab(child: tabItem('최신이슈', font_family)),
                   Tab(child: tabItem('지역이슈', font_family)),
@@ -105,4 +123,5 @@ class _MyHomePageState extends State<MyHomePage>
       )
     );
   }
+
 }
