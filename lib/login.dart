@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:region_design/SignIn.dart';
+import 'package:region_design/component/CustomTextField.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            color: Colors.blue,
+            color: Colors.white,
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -31,14 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
-                              color: Colors.white,
+                              color: Colors.grey,
                             ),
                           ),
                           Text(
                             '우리 지역의 국회',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.white,
+                              color: Colors.grey,
                             ),
                           )
                         ],
@@ -79,13 +81,26 @@ class _LoginScreenState extends State<LoginScreen> {
                           isPassword: true,
                           icon: Icon(Icons.https, size: 27,color: Color(0xFFF032f41),),
                         ),
-                        SizedBox(height: 40),
-                        ButtonLoginAnimation(
-                          label: "로그인",
-                          fontColor: Colors.white,
-                          background: Color(0xFFF1f94aa),
-                          borderColor: Color(0xFFF1a7a8c),
-                        )
+                        Container(
+                          alignment: Alignment.topRight,
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => Signin())
+                              );
+                            },
+                            child: Text(
+                              '회원가입',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          )
+                        ),
+                        SizedBox(height: 30),
+                        LoginButton()
                       ],
                     ),
                   )
@@ -100,148 +115,24 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class CustomTextField extends StatelessWidget {
 
-  final String label;
-  final Widget icon;
-  final bool isPassword;
-
-  const CustomTextField({Key key, this.label, this.icon, this.isPassword = false}) : super(key: key);
-
+class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      style: TextStyle(color: Color(0xFFF234253),fontWeight: FontWeight.bold),
-      obscureText: isPassword,
-      decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1.0)
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(top: 10, bottom: 10),
+      color: Colors.grey,
+      alignment: Alignment.center,
+      child: Text(
+          '로그인',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold
           ),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1.0)
-          ),
-          labelText: label,
-          labelStyle: TextStyle(color: Color(0xFFF234253),fontWeight: FontWeight.bold),
-          suffixIcon: icon
-      ),
-
-    );
-  }
-}
-
-class ButtonLoginAnimation extends StatefulWidget {
-
-  final String label;
-  final Color background;
-  final Color borderColor;
-  final Color fontColor;
-  final Function onTap;
-  final Widget child;
-
-  const ButtonLoginAnimation({Key key, this.label, this.background, this.borderColor, this.fontColor, this.onTap, this.child}) : super(key: key);
-
-  @override
-  _ButtonLoginAnimationState createState() => _ButtonLoginAnimationState();
-}
-
-class _ButtonLoginAnimationState extends State<ButtonLoginAnimation>
-    with TickerProviderStateMixin {
-
-  AnimationController _positionController;
-  Animation<double> _positionAnimation;
-
-  AnimationController _scaleController;
-  Animation<double> _scaleAnimation;
-
-  bool _isLogin = false;
-  bool _isIconHide = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _positionController = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 800)
-    );
-
-    _positionAnimation = Tween<double>(begin: 10.0, end: 255.0)
-        .animate(_positionController)..addStatusListener((status){
-      if(status == AnimationStatus.completed){
-        setState(() {
-          _isIconHide = true;
-        });
-        _scaleController.forward();
-      }
-    });
-
-    _scaleController = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 900)
-    );
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 32)
-        .animate(_scaleController)..addStatusListener((status){
-      if(status == AnimationStatus.completed){
-      }
-    });
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
-        setState(() {
-          _isLogin = true;
-        });
-        _positionController.forward();
-      },
-      child: Container(
-        height: 63,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: widget.background,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: !_isLogin ? Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(widget.label, style: TextStyle(
-                color: widget.fontColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-            )),
-            SizedBox(width: 10),
-            Icon(Icons.arrow_forward, color: widget.fontColor,size: 32)
-          ],
-        ) : Stack(
-          children: <Widget>[
-            AnimatedBuilder(
-              animation: _positionController,
-              builder: (context, child) => Positioned(
-                left: _positionAnimation.value,
-                top: 5,
-                child: AnimatedBuilder(
-                  animation: _scaleController,
-                  builder: (context,build) => Transform.scale(
-                      scale: _scaleAnimation.value,
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: widget.borderColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: !_isIconHide ? Icon(Icons.arrow_forward, color: widget.fontColor,size: 32) : Container(),
-                      )),
-                ),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
+  
 }
